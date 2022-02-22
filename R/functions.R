@@ -4,8 +4,7 @@
 # Author: Dr. T. Ian Simpson
 # Affiliation : University of Edinburgh
 # E-mail : ian.simpson@ed.ac.uk
-# Version : 1.0
-#
+# Version : 1.2
 ###############################################################################
 
 #read in required libraries
@@ -257,7 +256,7 @@ cluscomp<-function(x,diss=FALSE,algorithms=list('kmeans'),alparams=list(),alweig
 		}
 		if(merge!=0){
 			mm <- new('mergematrix',cm=mm,k=clnum,a='merge')
-			cmlist[paste('merge_k',clnum,sep='')] <- mm
+			cmlist[[paste('merge_k',clnum,sep='')]] <- mm
 		}
 	}
 	return(cmlist)
@@ -372,12 +371,12 @@ memrob <- function(x,rm=data.frame()){
 	mem_rob_list <- list();
 	for(i in 1:dim(mem_rob)[2]){
 		cl_mem_rob <- (mem_rob[(cmref==i),i])
-		current_list <- data.frame(sort(cl_mem_rob,dec=TRUE))
+		current_list <- data.frame(sort(cl_mem_rob,decreasing = TRUE))
 		names(current_list) <- 'mem_rob'
 		current_mem_rob_list <- new('memroblist',mrl=current_list);
-		mem_rob_list[paste('cluster',i,sep='')] <- current_mem_rob_list
+		mem_rob_list[[paste('cluster',i,sep='')]] <- current_mem_rob_list
 	}
-	mem_rob_list['resultmatrix']<- new('memrobmatrix',mrm=mem_rob);
+	mem_rob_list[['resultmatrix']]<- new('memrobmatrix',mrm=mem_rob);
 	mem_rob_list['algo']<- x@a;
 	mem_rob_list['type']<- class(x);
 	return(mem_rob_list)
@@ -415,7 +414,7 @@ auc <- function(x){
 	}
 	
 	#sort the xi 
-	xi <- sort(xi,dec=FALSE)
+	xi <- sort(xi,decreasing=FALSE)
 	
 	
 	#now create the CDF(xi)
@@ -495,7 +494,7 @@ deltak <- function(x){
 #aucs plot
 aucplot<-function(x){
 	if(validAUCObject(x)){
-		library(RColorBrewer);
+		#library(RColorBrewer);
 		line_number <- length(unique(x[,2]));
 		if(line_number<3){
 			gpcols <- brewer.pal(3,'Set1');
@@ -543,7 +542,7 @@ aucplot<-function(x){
 #delta-K plot
 dkplot<-function(x){
 	if(validDkObject(x)){
-		library(RColorBrewer);
+		#library(RColorBrewer);
 		line_number <- length(unique(x[,2]));
 		if(line_number<3){
 			gpcols <- brewer.pal(3,'Set1');
@@ -604,7 +603,7 @@ expressionPlot <- function(x,cm){
 	if(data_check(x)!=TRUE){stop('the provided data fails the data integrity check')};
 	
 	#reshape the data using second dimension as conditions
-	x_plot <- reshape(x,varying=1:dim(x)[[2]],dir='long',v.names='expression',timevar='condition');
+	x_plot <- reshape(x,varying=1:dim(x)[[2]],direction='long',v.names='expression',timevar='condition');
 	
 	#convert to factors
 	x_plot$condition <- as.factor(x_plot$condition);
@@ -618,7 +617,6 @@ expressionPlot <- function(x,cm){
 		panel.xyplot(..., type = "p", col = cols)
 		panel.xyplot(..., type = "a", col = 'black')
 	}
-	x11();
 	xyplot(
 			expression~condition|class,
 			x_plot,

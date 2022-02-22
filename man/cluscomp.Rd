@@ -7,8 +7,18 @@ When running with more than one algorithm or with the same algorithm and multipl
 These can optionally be merged into a \code{\link{mergematrix}} by cluster number by setting merge=1.\cr
 }
 \usage{
-cluscomp(x, diss=FALSE, algorithms = list("kmeans"), alparams = list(), alweights = list(),
-         clmin = 2, clmax = 10, prop = 0.8, reps = 50, merge = 0)
+cluscomp(
+  x,
+  diss=FALSE,
+  algorithms = list("kmeans"),
+  alparams = list(),
+  alweights = list(),
+  clmin = 2,
+  clmax = 10,
+  prop = 0.8,
+  reps = 50,
+  merge = 0
+  )
 }
 \arguments{
   \item{x}{
@@ -85,18 +95,14 @@ data(sim_profile);
 
 #perform a group of re-sampling clustering experiments accepting default parameters 
 #for the clustering algorithms
-#cmr <- cluscomp(sim_profile,algorithms=list('kmeans','pam'),merge=1,clmin=2,clmax=5,reps=5)
-
-#simple example
-#cmr <- cluscomp(sim_profile,clmin=2,clmax=5,prop=0.8,reps=5)
-
-#more complex example
-alp <- list(method='complete')
-#cmr <- cluscomp(sim_profile,algorithms=list('agnes','pam'),alparams=list(alp,list()),clmin=4,clmax=4,prop=0.8,reps=5)
-
-#even more complex example
-pamp <- list(metric='manhattan')
-cmr <- cluscomp(sim_profile,algorithms=list('agnes','pam'),alparams=list(alp,pamp),alweights=list(1,0.7),clmin=3,clmax=5,prop=0.8,reps=5,merge=1)
+cmr <- cluscomp(
+ sim_profile,
+ algorithms=list('kmeans','pam'),
+ merge=1,
+ clmin=2,
+ clmax=5,
+ reps=5
+)
 
 #display resulting matrices contained in the consensus result list
 summary(cmr);
@@ -114,7 +120,8 @@ memrob(cmr$e2_pam_k4)$cluster1;
 #merged consensus example
 #data(testcmr);
 
-#calculate the membership robustness for the merge matrix when cluster number k=4, in reference to the pam scaffold. (see memrob for more details). 
+#calculate the membership robustness for the merge matrix when cluster number k=4,
+#in reference to the pam scaffold. (see memrob for more details). 
 #mr <- memrob(testcmr$merge_k4,testcmr$e1_kmeans_k4@rm);
 
 #show the membership robustness for cluster 1

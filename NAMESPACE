@@ -13,3 +13,12 @@ import(
   grid,
   apcluster
 )
+
+importFrom(
+  "stats",
+  "as.dist",
+  "dist",
+  "hclust",
+  "kmeans",
+  "reshape"
+)

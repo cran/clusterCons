@@ -48,7 +48,8 @@ mr1 <- memrob(testcmr$e1_kmeans_k4);
 #show the membership robustness of cluster 1
 mr1$cluster1;
 
-#calculate the cluster robustness of the merge matrix in reference to the clustering structure of pam where k=4
+#calculate the cluster robustness of the merge matrix in reference
+#to the clustering structure of pam where k=4
 mr2 <- memrob(testcmr$merge_k4,testcmr$e1_kmeans_k4@rm);
 
 #plot a heatmap of the full membership robustness matrix

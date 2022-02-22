@@ -5,39 +5,39 @@
 # Affiliation : University of Edinburgh
 # E-mail : ian.simpson@ed.ac.uk
 #
-# Example script number 1 - basic use with simulated data
-#
+# Example script number 3 - more advanced use with data from Golub et al. 1999
 ###############################################################################
 
 #perform some test analyses using clusterCons
 library(clusterCons);
 
-#PART ONE - simulated profile data (true k=4)
-#load up the data
-data('sim_profile');
+#load in some real gene expression data
 
-#perform the re-sampling with five different algorithms
-cmr <- cluscomp(sim_profile,algorithms=list('kmeans','pam','agnes'),merge=0,clmin=2,clmax=6,reps=5);
+#simulated class data (true number of classes = 3, 200 diagnostic genes with 10 different expression profiles)
+data('sim_class');
+
+#perform the re-sampling with (note the transpose of the data matrix as we want to cluster by class not gene) 
+cmr <- cluscomp(data.frame(t(sim_class)),algorithms=list('kmeans','pam','agnes'),merge=0,clmin=2,clmax=6,reps=20);
 
 #show the result list
 summary(cmr);
 
 #explore the cluster robustness for all k values
 for(i in 1:length(cmr)){
-	print(names(cmr)[i],q=F);
-	print(clrob(cmr[[i]]),q=F);
+  print(names(cmr)[i],q=F);
+  print(clrob(cmr[[i]]),q=F);
 }
 
-#when k=4 show the cluster robustness
+#when k=3 show the cluster robustness
 for(i in 1:length(cmr)){
-	if(cmr[[i]]@k==4){
-		print(names(cmr)[i],q=F);
-		print(clrob(cmr[[i]]),q=F);
-	}
+  if(cmr[[i]]@k==3){
+    print(names(cmr)[i],q=F);
+    print(clrob(cmr[[i]]),q=F);
+  }
 }
 
 #when k=4 and algo is kmeans find the membership robustness values
-mr <- memrob(cmr$e3_agnes_k4);
+mr <- memrob(cmr$e1_kmeans_k3);
 
 #show what this object holds
 summary(mr);
@@ -47,6 +47,8 @@ mr$cluster1;
 
 #show the whole membership matrix
 mr$resultmatrix;
+
+#EXTRA ANALYSIS
 
 #calculating area under curve (AUC)
 

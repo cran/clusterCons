@@ -45,6 +45,7 @@ data(testcmr);
 #calculate the cluster robustness of the consensus matrix for pam where k=4
 clrob(testcmr$e1_kmeans_k4);
 
-#calculate the cluster robustness of the merge matrix in reference to the clustering structrure of pam where k=4
+#calculate the cluster robustness of the merge matrix in reference
+#to the clustering structrure of pam where k=4
 clrob(testcmr$merge_k4,testcmr$e1_kmeans_k4@rm);
 }
